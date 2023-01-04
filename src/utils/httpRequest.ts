@@ -12,14 +12,6 @@ export const makeRegisterRequest = async (
   email: string,
   password: string
 ): Promise<RegisterResponse> => {
-  console.log(
-    JSON.stringify({
-      first_name,
-      last_name,
-      email,
-      password,
-    })
-  );
   const response = await fetch(baseURL + "register", {
     headers: {
       "Content-Type": "application/json",

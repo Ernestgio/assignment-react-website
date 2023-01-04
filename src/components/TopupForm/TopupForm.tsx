@@ -48,7 +48,6 @@ export default function TopupForm() {
   };
 
   const handleSourceChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setSourceOfFund(Number(e.target.value));
   };
 

@@ -38,7 +38,6 @@ const fetchSourcesFromApi = async (rejectWithValue: any, cookie: string) => {
     const sources: IFundSource[] = data.map((source: IFundSource) => {
       return { id: source.id, name: source.name };
     });
-    console.log(sources);
     return sources;
   } catch (err: any) {
     return rejectWithValue(err.message);

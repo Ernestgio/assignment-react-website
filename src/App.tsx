@@ -18,8 +18,8 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
-        <Route path="transfer" element={<Transfer />} />
-        <Route path="topup" element={<Topup />} />
+        <Route path="/transfer" element={<Transfer />} />
+        <Route path="/topup" element={<Topup />} />
 
         <Route path="*" element={<NotFound />} />
       </Routes>
