@@ -36,8 +36,8 @@ export default function Navbar() {
               </NavLink>
             </li>
             <li className="nav__item">
-              <NavLink to="/profile" className="nav-link">
-                Profile
+              <NavLink to="/games" className="nav-link">
+                Games
               </NavLink>
             </li>
           </div>

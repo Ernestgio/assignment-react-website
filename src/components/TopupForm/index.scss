@@ -22,9 +22,14 @@ $text__secondary: #737373;
     width: 28.125rem;
     margin-top: 1rem;
     padding: 0.625rem 1.25rem;
+    border: 1px solid #bbb;
 
     &.input__amount {
       font-size: 1.875rem;
+    }
+
+    &.disabled {
+      background-color: #ccc;
     }
   }
 
@@ -35,6 +40,7 @@ $text__secondary: #737373;
 
     option {
       width: 100%;
+      padding: 1rem;
     }
   }
   .button {

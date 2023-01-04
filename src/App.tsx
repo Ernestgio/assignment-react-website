@@ -1,10 +1,13 @@
 import { Route, Routes } from "react-router-dom";
-import "./App.scss";
+
 import HomePage from "./pages/Home/HomePage";
 import Login from "./pages/Login/Login";
 import NotFound from "./pages/NotFound/NotFound";
 import Register from "./pages/Register/Register";
 import Topup from "./pages/Topup/Topup";
+import Transfer from "./pages/Transfer/Transfer";
+
+import "./App.scss";
 
 function App() {
   return (
@@ -15,6 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
 
+        <Route path="transfer" element={<Transfer />} />
         <Route path="topup" element={<Topup />} />
 
         <Route path="*" element={<NotFound />} />
