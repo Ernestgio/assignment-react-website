@@ -1,0 +1,25 @@
+$color__primary: #23a6f0;
+$text__primary: #000000;
+$text__secondary: #737373;
+
+.welcome__container {
+  margin-top: 3rem;
+
+  .welcome__text {
+    font-size: 2.5rem;
+    font-weight: 700;
+  }
+
+  .flex__welcome {
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      font-size: 1.25rem;
+    }
+  }
+  h2 {
+    text-align: right;
+    font-size: 3.125rem;
+  }
+}

@@ -1,0 +1,23 @@
+$color__primary: #23a6f0;
+$text__primary: #000000;
+$text__secondary: #737373;
+
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+div {
+  &.navbar-collapse {
+    justify-content: flex-end;
+  }
+}
+
+.nav__item {
+  a {
+    text-decoration: none;
+    color: $text__secondary;
+    padding: 0 1rem;
+    font-weight: 600;
+  }
+}

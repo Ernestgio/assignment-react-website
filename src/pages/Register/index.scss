@@ -1,0 +1,38 @@
+$color__primary: #23a6f0;
+$text__primary: #000000;
+$text__secondary: #737373;
+
+.register__page__container {
+  height: 100vh;
+  position: relative;
+
+  .image__container {
+    position: absolute;
+    height: 100vh;
+    background-color: $color__primary;
+    z-index: -1;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    padding: 25rem 6.313rem 30rem 6.313rem;
+    display: none;
+    @media screen and (min-width: 1024px) {
+      display: block;
+    }
+
+    img {
+      width: 100%;
+    }
+  }
+}
+
+.form__container {
+  text-align: left;
+  margin-top: 15rem;
+
+  h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: $text__primary;
+  }
+}

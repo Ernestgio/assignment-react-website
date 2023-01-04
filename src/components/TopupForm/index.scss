@@ -1,0 +1,57 @@
+$color__primary: #23a6f0;
+$text__primary: #000000;
+$text__secondary: #737373;
+
+.fields__container {
+  margin-top: 5rem;
+  padding-bottom: 5rem;
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $text__primary;
+    margin: 0;
+    margin-top: 1.25rem;
+  }
+  p {
+    margin: 0;
+  }
+
+  input {
+    height: inherit;
+    width: 28.125rem;
+    margin-top: 1rem;
+    padding: 0.625rem 1.25rem;
+
+    &.input__amount {
+      font-size: 1.875rem;
+    }
+  }
+
+  select {
+    height: 3.125rem;
+    width: 28.125rem;
+    padding: 0.75rem 1.25rem 0.75rem 0.625rem;
+
+    option {
+      width: 100%;
+    }
+  }
+  .button {
+    border: none;
+    background-color: $color__primary;
+    text-align: center;
+    color: white;
+    font-weight: 700;
+    height: 3.125rem;
+    width: 28.125rem;
+  }
+
+  .error {
+    color: red;
+  }
+
+  .error__input {
+    border: 1px solid red;
+  }
+}

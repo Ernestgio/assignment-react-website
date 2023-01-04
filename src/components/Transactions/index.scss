@@ -1,0 +1,14 @@
+$color__primary: #23a6f0;
+$text__primary: #000000;
+$text__secondary: #737373;
+
+.transactions__container {
+  margin-top: 6rem;
+
+  thead {
+    font-weight: 700;
+    td {
+      padding: 1rem 1.25rem;
+    }
+  }
+}
