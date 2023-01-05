@@ -1,16 +1,3 @@
-export interface RegisterResponse {
-  code: number;
-  message: string;
-}
-
-export interface LoginResponse {
-  code: number;
-  message: string;
-  data?: {
-    token?: string;
-  };
-}
-
 export interface TopupResponse {
   code: number;
   message: string;
@@ -37,6 +24,7 @@ export interface TransactionRequest {
   sortBy: string;
   sortDir: string;
   search: string;
+  period: string;
 }
 
 export interface IUser {

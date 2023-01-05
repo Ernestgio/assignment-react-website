@@ -12,7 +12,7 @@ import "./index.scss";
 
 export default function TransferForm() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-  const [amount, setAmount] = useState<number>(10000);
+  const [amount, setAmount] = useState<number>(0);
   const [destWalletId, setDestWalletId] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
 
@@ -103,6 +103,7 @@ export default function TransferForm() {
         />
         <h2>Amount</h2>
         <input
+          data-testid="amount-input"
           className={"input__amount " + (amount === 0 ? "error__input" : " ")}
           type="tel"
           required
@@ -111,15 +112,21 @@ export default function TransferForm() {
           min={10000}
         />
         {amount === 0 && (
-          <p className="error">Please insert amount of transfer</p>
+          <p className="error" data-testid="amount-empty-warning">
+            Please insert amount of transfer
+          </p>
         )}
         {amount < 10000 && amount > 0 && (
-          <p className="error">
+          <p className="error" data-testid="amount-value-warning">
             Please enter a Minimum of Rp 10.000,00 for transfer
           </p>
         )}
 
-        {amount > balance && <p className="error">Insufficient balance</p>}
+        {amount > balance && (
+          <p data-testid="insufficient-balance-warning" className="error">
+            Insufficient balance
+          </p>
+        )}
         <h2>Description</h2>
         <input
           type="text"

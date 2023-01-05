@@ -4,7 +4,8 @@ import {
   createSlice,
   ThunkDispatch,
 } from "@reduxjs/toolkit";
-import { TransactionRequest } from "../../interfaces/api";
+import { translateTransactions } from "../../utils/converter";
+import { filterTransactions } from "../../utils/filter";
 
 export interface TransactionData {
   id: number;
@@ -31,7 +32,7 @@ const initialState: ITransactionState = {
 
 export const fetchTransactions = createAsyncThunk<
   any,
-  TransactionRequest,
+  any,
   { rejectValue: string }
 >("FETCH_TRANSACTIONS", (requestParams: any, { rejectWithValue }) => {
   return fetchTransactionFromApi(rejectWithValue, requestParams);
@@ -60,47 +61,18 @@ const fetchTransactionFromApi = async (
       requestParameters.currentWallet
     );
 
+    const period = requestParameters.period;
+    const filteredTransactions = filterTransactions(transactions, period);
+
     return {
       page,
       size,
       count,
-      data: transactions,
+      data: filteredTransactions,
     };
   } catch (err: any) {
     return rejectWithValue(err.message);
   }
-};
-
-const translateTransactions = (
-  data: any,
-  currentWallet: number
-): TransactionData[] => {
-  return data.map((transaction: any) => {
-    let fromToUser: number;
-    let transactionType: "DEBIT" | "CREDIT";
-
-    if (transaction.to_wallet_id) {
-      fromToUser =
-        transaction.to_wallet_id === currentWallet
-          ? transaction.wallet_id
-          : transaction.to_wallet_id;
-      transactionType =
-        transaction.to_wallet_id === currentWallet ? "CREDIT" : "DEBIT";
-    } else {
-      fromToUser = transaction.source_of_fund_id;
-      transactionType = "CREDIT";
-    }
-
-    return {
-      id: transaction.id,
-      to_wallet_id: transaction.to,
-      from_to_user: fromToUser,
-      amount: transaction.amount,
-      description: transaction.description,
-      created_at: transaction.created_at,
-      type: transactionType,
-    };
-  });
 };
 
 export const transactionSlice = createSlice({

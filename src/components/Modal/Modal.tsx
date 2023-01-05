@@ -57,7 +57,11 @@ export default function Modal(props: {
           </div>
         </div>
         <div className="button__flex">
-          <button className="print__button" onClick={handlePrint}>
+          <button
+            className="print__button"
+            onClick={handlePrint}
+            data-testid="print-button"
+          >
             Print
           </button>
           <button onClick={props.onClose}>Close</button>

@@ -14,6 +14,7 @@ import {
 import { fetchUser, UserDispatch } from "../../store/slices/userSlice";
 
 import "./index.scss";
+import { TimePeriod } from "../../enums/timePeriod";
 
 export default function Transactions() {
   const [params, setParams] = useState<TransactionRequest>({
@@ -22,6 +23,7 @@ export default function Transactions() {
     sortBy: "date",
     sortDir: "desc",
     search: "",
+    period: "",
   } as TransactionRequest);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const { walletId } = useSelector((state: RootState) => state.user);
@@ -32,9 +34,7 @@ export default function Transactions() {
 
   const [searchKey, setSearchKey] = useState<string>("");
   const [search] = useDebounce(searchKey, 500);
-  <li className="page-item">
-    <p className="page-link">1</p>
-  </li>;
+
   useEffect(() => {
     dispatch(fetchUser(cookies.token));
     const requestParameters = {
@@ -58,6 +58,11 @@ export default function Transactions() {
     setParams({ ...params, search: search });
   }, [search]);
 
+  const handlePeriod = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setParams({ ...params, period: value });
+  };
+
   const handleSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setParams({ ...params, sortBy: value });
@@ -78,12 +83,16 @@ export default function Transactions() {
       <div className="transactions__slicer__container">
         <div className="date__slicer__container">
           <p>Show</p>
-          <select className="form-select">
+          <select
+            className="form-select"
+            value={params.period}
+            onChange={handlePeriod}
+          >
             <option value="Last 10 transactions">Last 10 transactions</option>
-            <option value="This Month">This Month</option>
-            <option value="Last Month">Last Month</option>
-            <option value="This Year">This Year</option>
-            <option value="Last YearYear">Last Year</option>
+            <option value={TimePeriod.THIS_MONTH}>This month</option>
+            <option value={TimePeriod.LAST_MONTH}>Last month</option>
+            <option value={TimePeriod.THIS_YEAR}>This year</option>
+            <option value={TimePeriod.LAST_YEAR}>Last year</option>
           </select>
         </div>
         <div className="other__slicer__container">
@@ -123,7 +132,7 @@ export default function Transactions() {
 
       <ul className="pagination">
         <li
-          className={`page-item ${params.page == 1 ? "disabled" : ""}`}
+          className={`page-item ${params.page === 1 ? "disabled" : ""}`}
           onClick={() => setParams({ ...params, page: params.page - 1 })}
           style={{
             display: params.page === 1 ? "none" : "block",

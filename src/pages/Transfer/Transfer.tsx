@@ -8,7 +8,7 @@ export default function Transfer() {
     <div className="container">
       <Navbar />
       <div className="transfer__page__container">
-        <h1>Transfer</h1>
+        <h1 data-testid="transfer-header">Transfer</h1>
         <TransferForm />
       </div>
     </div>
