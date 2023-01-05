@@ -31,6 +31,16 @@ export interface TransferResponse {
   };
 }
 
+export interface TransactionRequest {
+  page: number;
+  size: number;
+  count: number;
+  sortBy: string;
+  sortDirection: string;
+  token: string;
+  currentWallet: number;
+}
+
 export interface IUser {
   first_name: string;
   wallet_id: number;
