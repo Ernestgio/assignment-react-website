@@ -51,9 +51,7 @@ export const makeLoginRequest = async (
     });
     const body = await response.json();
     return body;
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export const makeTopupRequest = async (
@@ -75,9 +73,7 @@ export const makeTopupRequest = async (
     });
     const { code, message, data } = await response.json();
     return { code, message, data };
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };
 
 export const makeTransferRequest = async (
@@ -102,7 +98,5 @@ export const makeTransferRequest = async (
 
     const { code, message, data } = await response.json();
     return { code, message, data };
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };

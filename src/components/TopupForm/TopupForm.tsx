@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { RootState } from "../../store";
 import {
@@ -30,6 +31,8 @@ export default function TopupForm() {
   const dispatch: UserDispatch = useDispatch();
   const dispatchFundSource: FundSourceDispatch = useDispatch();
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await makeTopupRequest(
@@ -41,6 +44,7 @@ export default function TopupForm() {
     if (response?.code === 201) {
       setDesc(response?.data?.description);
       setSuccessFullTransactionId(response?.data?.id);
+      clearForm();
       setShowModal(true);
       return;
     }
@@ -55,6 +59,11 @@ export default function TopupForm() {
       progress: undefined,
       theme: "light",
     });
+  };
+
+  const clearForm = () => {
+    setAmount(0);
+    setSourceOfFund(1);
   };
 
   const handleAmtChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +81,7 @@ export default function TopupForm() {
 
   const handleModalClose = () => {
     setShowModal(false);
+    navigate("/");
   };
 
   return (

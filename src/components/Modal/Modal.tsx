@@ -1,3 +1,5 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { convertToNumString } from "../../utils/converter";
 import "./index.scss";
 
@@ -11,6 +13,14 @@ export default function Modal(props: {
   amount: number;
   id: number | undefined;
 }) {
+  const navigate = useNavigate();
+
+  const handlePrint = (e: React.MouseEvent) => {
+    e.preventDefault();
+    window.print();
+    navigate("/");
+  };
+
   return (
     <div
       className="modal__screen"
@@ -47,7 +57,7 @@ export default function Modal(props: {
           </div>
         </div>
         <div className="button__flex">
-          <button className="print__button" onClick={window.print}>
+          <button className="print__button" onClick={handlePrint}>
             Print
           </button>
           <button onClick={props.onClose}>Close</button>

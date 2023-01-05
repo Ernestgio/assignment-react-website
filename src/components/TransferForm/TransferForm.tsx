@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import { RootState } from "../../store";
 import { fetchUser, UserDispatch } from "../../store/slices/userSlice";
 import { makeTransferRequest } from "../../utils/httpRequest";
+import Modal from "../Modal/Modal";
 
 import "./index.scss";
 
@@ -14,6 +16,13 @@ export default function TransferForm() {
   const [destWalletId, setDestWalletId] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
 
+  const [showModal, setShowModal] = useState<boolean>(false);
+  const [successFullTransactionId, setSuccessFullTransactionId] = useState<
+    number | undefined
+  >(0);
+
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const response = await makeTransferRequest(
@@ -22,6 +31,15 @@ export default function TransferForm() {
       description,
       cookies.token
     );
+
+    setSuccessFullTransactionId(response?.data?.id);
+
+    if (response?.code === 201) {
+      setSuccessFullTransactionId(response?.data?.id);
+      clearForm();
+      setShowModal(true);
+      return;
+    }
 
     toast(`Transaction ${response?.message}`, {
       position: "top-right",
@@ -33,6 +51,12 @@ export default function TransferForm() {
       progress: undefined,
       theme: "light",
     });
+  };
+
+  const clearForm = () => {
+    setAmount(0);
+    setDestWalletId(0);
+    setDescription("");
   };
 
   const handleAmtChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -54,12 +78,17 @@ export default function TransferForm() {
     dispatch(fetchUser(cookies.token));
   }, [cookies.token, dispatch]);
 
+  const handleModalClose = () => {
+    setShowModal(false);
+    navigate("/");
+  };
+
   return (
     <div className="fields__container">
       <form onSubmit={handleSubmit}>
         <h2>From</h2>
         <input
-          type="number"
+          type="tel"
           required
           value={walletId}
           disabled={true}
@@ -103,6 +132,16 @@ export default function TransferForm() {
         <input type="submit" className="button" value="submit" />
       </form>
       <ToastContainer />
+      <Modal
+        show={showModal}
+        onClose={handleModalClose}
+        context="Transfer"
+        to={destWalletId}
+        from={walletId}
+        amount={amount}
+        description={description}
+        id={successFullTransactionId}
+      />
     </div>
   );
 }
