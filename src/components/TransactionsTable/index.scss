@@ -1,0 +1,25 @@
+table {
+  color: #252b42;
+  &.table-striped > tbody > tr:nth-of-type(odd) > * {
+    &.green__text {
+      color: #219653;
+    }
+  }
+  td {
+    font-weight: 500;
+  }
+  margin-top: 1rem;
+  thead {
+    font-weight: 700;
+    td {
+      padding: 1rem 1.25rem;
+    }
+  }
+  tbody {
+    td {
+      &.green__text {
+        color: #219653;
+      }
+    }
+  }
+}

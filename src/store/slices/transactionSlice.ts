@@ -30,28 +30,25 @@ const initialState: ITransactionState = {
 };
 
 export const fetchTransactions = createAsyncThunk<
-  ITransactionState,
+  any,
   TransactionRequest,
   { rejectValue: string }
->(
-  "FETCH_TRANSACTIONS",
-  (requestParams: TransactionRequest, { rejectWithValue }) => {
-    return fetchTransactionFromApi(rejectWithValue, requestParams);
-  }
-);
+>("FETCH_TRANSACTIONS", (requestParams: any, { rejectWithValue }) => {
+  return fetchTransactionFromApi(rejectWithValue, requestParams);
+});
 
 const fetchTransactionFromApi = async (
   rejectWithValue: any,
-  requestParams: TransactionRequest
+  requestParameters: any
 ) => {
   try {
     const response: Response = await fetch(
-      "http://localhost:8080/transactions",
+      `http://localhost:8080/transactions?size=${requestParameters.size}&sortBy=${requestParameters.sortBy}&sortDir=${requestParameters.sortDir}&search=${requestParameters.search}&page=${requestParameters.page}`,
       {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${requestParams.token}`,
+          Authorization: `Bearer ${requestParameters.token}`,
         },
       }
     );
@@ -60,7 +57,7 @@ const fetchTransactionFromApi = async (
     const payload = data.data;
     const transactions: TransactionData[] = translateTransactions(
       payload,
-      requestParams.currentWallet
+      requestParameters.currentWallet
     );
 
     return {
@@ -88,7 +85,7 @@ const translateTransactions = (
           ? transaction.wallet_id
           : transaction.to_wallet_id;
       transactionType =
-        transaction.to_wallet_id === currentWallet ? "DEBIT" : "CREDIT";
+        transaction.to_wallet_id === currentWallet ? "CREDIT" : "DEBIT";
     } else {
       fromToUser = transaction.source_of_fund_id;
       transactionType = "CREDIT";

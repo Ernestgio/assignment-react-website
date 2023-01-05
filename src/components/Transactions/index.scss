@@ -5,10 +5,72 @@ $text__secondary: #737373;
 .transactions__container {
   margin-top: 6rem;
 
-  thead {
-    font-weight: 700;
-    td {
-      padding: 1rem 1.25rem;
+  div {
+    &.transactions__slicer__container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      color: $text__secondary;
+
+      .date__slicer__container {
+        align-items: center;
+        display: flex;
+        p {
+          color: $text__secondary;
+          margin-bottom: 0;
+          margin-right: 0.875rem;
+        }
+        select {
+          font-size: 0.875rem;
+          color: $text__secondary;
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+        }
+      }
+
+      .other__slicer__container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        p {
+          width: 100%;
+          margin-bottom: 0;
+          margin-right: 0.875rem;
+        }
+        select {
+          color: $text__secondary;
+          padding-top: 0.75rem;
+          padding-bottom: 0.75rem;
+          font-size: 0.875rem;
+          &.sort__column {
+            margin-right: 0.5rem;
+          }
+        }
+        div {
+          &.input-group {
+            span {
+              padding: 0 0.5rem;
+              background: none;
+            }
+            input {
+              border-left: none;
+              padding-top: 0.75rem;
+              padding-bottom: 0.75rem;
+              font-size: 0.875rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  ul {
+    &.pagination {
+      justify-content: center;
+    }
+    li {
+      cursor: pointer;
     }
   }
 }

@@ -47,7 +47,7 @@ export default function TransferForm() {
     setDescription(e.target.value);
   };
 
-  const { walletId } = useSelector((state: RootState) => state.user);
+  const { walletId, balance } = useSelector((state: RootState) => state.user);
   const dispatch: UserDispatch = useDispatch();
 
   useEffect(() => {
@@ -75,7 +75,7 @@ export default function TransferForm() {
         <h2>Amount</h2>
         <input
           className={"input__amount " + (amount === 0 ? "error__input" : " ")}
-          type="number"
+          type="tel"
           required
           value={amount}
           onChange={handleAmtChange}
@@ -89,6 +89,8 @@ export default function TransferForm() {
             Please enter a Minimum of Rp 10.000,00 for transfer
           </p>
         )}
+
+        {amount > balance && <p className="error">Insufficient balance</p>}
         <h2>Description</h2>
         <input
           type="text"

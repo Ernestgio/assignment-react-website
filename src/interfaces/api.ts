@@ -34,11 +34,9 @@ export interface TransferResponse {
 export interface TransactionRequest {
   page: number;
   size: number;
-  count: number;
   sortBy: string;
-  sortDirection: string;
-  token: string;
-  currentWallet: number;
+  sortDir: string;
+  search: string;
 }
 
 export interface IUser {

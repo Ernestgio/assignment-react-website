@@ -5,7 +5,7 @@ import "./index.scss";
 
 export default function Topup() {
   return (
-    <div className="container">
+    <div>
       <Navbar />
       <div className="topup__page__container">
         <h1>Topup</h1>

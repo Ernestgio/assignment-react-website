@@ -1,67 +1,167 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { useDispatch, useSelector } from "react-redux";
+import { useDebounce } from "use-debounce";
 import { TransactionRequest } from "../../interfaces/api";
 import { RootState } from "../../store";
+
+import TransactionsTable from "../TransactionsTable/TransactionsTable";
+
 import {
   fetchTransactions,
   TransactionDispatch,
 } from "../../store/slices/transactionSlice";
 import { fetchUser, UserDispatch } from "../../store/slices/userSlice";
-import { convertDate } from "../../utils/converter";
+
 import "./index.scss";
 
 export default function Transactions() {
+  const [params, setParams] = useState<TransactionRequest>({
+    page: 1,
+    size: 10,
+    sortBy: "date",
+    sortDir: "desc",
+    search: "",
+  } as TransactionRequest);
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
-
   const { walletId } = useSelector((state: RootState) => state.user);
-  const { page, count, size, data } = useSelector(
-    (state: RootState) => state.transaction
-  );
+  const { count, data } = useSelector((state: RootState) => state.transaction);
 
   const dispatch: UserDispatch = useDispatch();
   const dispatchTransaction: TransactionDispatch = useDispatch();
 
+  const [searchKey, setSearchKey] = useState<string>("");
+  const [search] = useDebounce(searchKey, 500);
+  <li className="page-item">
+    <p className="page-link">1</p>
+  </li>;
   useEffect(() => {
     dispatch(fetchUser(cookies.token));
-    const requestParams: TransactionRequest = {
-      page,
-      size,
-      count,
-      currentWallet: walletId,
-      sortBy: "date",
-      sortDirection: "desc",
+    const requestParameters = {
+      ...params,
       token: cookies.token,
+      currentWallet: walletId,
     };
-    dispatchTransaction(fetchTransactions(requestParams));
+    dispatchTransaction(fetchTransactions(requestParameters));
   }, []);
+
+  useEffect(() => {
+    const requestParameters = {
+      ...params,
+      token: cookies.token,
+      currentWallet: walletId,
+    };
+    dispatchTransaction(fetchTransactions(requestParameters));
+  }, [params]);
+
+  useEffect(() => {
+    setParams({ ...params, search: search });
+  }, [search]);
+
+  const handleSortBy = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setParams({ ...params, sortBy: value });
+  };
+
+  const handleSortDir = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value;
+    setParams({ ...params, sortDir: value });
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchKey(value);
+  };
 
   return (
     <div className="transactions__container">
-      <table className="table table-striped table-bordered">
-        <thead>
-          <tr>
-            <td>Date & Time</td>
-            <td>Type</td>
-            <td>From / To</td>
-            <td>Description</td>
-            <td>Amount</td>
-          </tr>
-        </thead>
-        <tbody>
-          {data.map((transaction) => {
-            return (
-              <tr key={transaction.id}>
-                <td>{convertDate(transaction.created_at)}</td>
-                <td>{transaction.type}</td>
-                <td>{transaction.from_to_user}</td>
-                <td>{transaction.description}</td>
-                <td>{transaction.amount}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <div className="transactions__slicer__container">
+        <div className="date__slicer__container">
+          <p>Show</p>
+          <select className="form-select">
+            <option value="Last 10 transactions">Last 10 transactions</option>
+            <option value="This Month">This Month</option>
+            <option value="Last Month">Last Month</option>
+            <option value="This Year">This Year</option>
+            <option value="Last YearYear">Last Year</option>
+          </select>
+        </div>
+        <div className="other__slicer__container">
+          <p>Sort By</p>
+          <select
+            className="form-select sort__column"
+            value={params.sortBy}
+            onChange={handleSortBy}
+          >
+            <option value="amount">Amount</option>
+            <option value="date">Date</option>
+          </select>
+          <select
+            className="form-select"
+            value={params.sortDir}
+            onChange={handleSortDir}
+          >
+            <option value="desc">Descending</option>
+            <option value="asc">Ascending</option>
+          </select>
+          <div className="input-group">
+            <span className="input-group-text">
+              <i className="fa fa-search"></i>
+            </span>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="search"
+              value={searchKey}
+              onChange={handleSearchChange}
+            />
+          </div>
+        </div>
+      </div>
+
+      <TransactionsTable data={data} />
+
+      <ul className="pagination">
+        <li
+          className={`page-item ${params.page == 1 ? "disabled" : ""}`}
+          onClick={() => setParams({ ...params, page: params.page - 1 })}
+          style={{
+            display: params.page === 1 ? "none" : "block",
+          }}
+        >
+          <p className="page-link">Previous</p>
+        </li>
+        <li
+          className={`page-item`}
+          onClick={() => setParams({ ...params, page: params.page - 1 })}
+          style={{
+            display: params.page - 1 < 1 ? "none" : "block",
+          }}
+        >
+          <span className="page-link">{params.page - 1}</span>
+        </li>
+        <li className={`page-item active`}>
+          <span className="page-link">{params.page}</span>
+        </li>
+        <li
+          className={`page-item`}
+          onClick={() => setParams({ ...params, page: params.page + 1 })}
+          style={{
+            display: count / params.size <= params.page ? "none" : "block",
+          }}
+        >
+          <span className="page-link">{params.page + 1}</span>
+        </li>
+        <li
+          className={`page-item `}
+          onClick={() => setParams({ ...params, page: params.page + 1 })}
+          style={{
+            display: count / params.size <= params.page ? "none" : "block",
+          }}
+        >
+          <p className="page-link">Next</p>
+        </li>
+      </ul>
     </div>
   );
 }

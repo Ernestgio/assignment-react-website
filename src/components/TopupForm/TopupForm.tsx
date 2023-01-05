@@ -9,6 +9,7 @@ import {
 } from "../../store/slices/fundSourceSlice";
 import { fetchUser, UserDispatch } from "../../store/slices/userSlice";
 import { makeTopupRequest } from "../../utils/httpRequest";
+import Modal from "../Modal/Modal";
 
 import "./index.scss";
 
@@ -16,6 +17,12 @@ export default function TopupForm() {
   const [cookies, setCookie, removeCookie] = useCookies(["token"]);
   const [amount, setAmount] = useState<number>(50000);
   const [sourceOfFund, setSourceOfFund] = useState<number>(1);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  const [desc, setDesc] = useState<string | undefined>("");
+  const [successFullTransactionId, setSuccessFullTransactionId] = useState<
+    number | undefined
+  >(0);
 
   const { walletId } = useSelector((state: RootState) => state.user);
   const { sources } = useSelector((state: RootState) => state.fundSource);
@@ -30,6 +37,13 @@ export default function TopupForm() {
       sourceOfFund,
       cookies.token
     );
+
+    if (response?.code === 201) {
+      setDesc(response?.data?.description);
+      setSuccessFullTransactionId(response?.data?.id);
+      setShowModal(true);
+      return;
+    }
 
     toast(`Transaction ${response?.message}`, {
       position: "top-right",
@@ -55,6 +69,10 @@ export default function TopupForm() {
     dispatch(fetchUser(cookies.token));
     dispatchFundSource(fetchSources(cookies.token));
   }, [cookies.token, dispatch, dispatchFundSource]);
+
+  const handleModalClose = () => {
+    setShowModal(false);
+  };
 
   return (
     <div className="fields__container">
@@ -101,6 +119,16 @@ export default function TopupForm() {
         <input type="submit" className="button" value="submit" />
       </form>
       <ToastContainer />
+      <Modal
+        show={showModal}
+        onClose={handleModalClose}
+        context="Top Up"
+        to={walletId}
+        from={sourceOfFund}
+        amount={amount}
+        description={desc}
+        id={successFullTransactionId}
+      />
     </div>
   );
 }

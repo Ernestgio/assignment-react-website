@@ -14,6 +14,10 @@ div {
 }
 
 .nav__item {
+  .nav-link.active {
+    text-decoration-line: underline;
+    color: $text__secondary;
+  }
   a {
     text-decoration: none;
     color: $text__secondary;
