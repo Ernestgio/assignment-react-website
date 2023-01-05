@@ -14,7 +14,7 @@ export default function Login() {
         <PublicNavbar />
       </div>
 
-      <div className="form__container container">
+      <div className="login__form__container container">
         <h1>Login</h1>
         <LoginForm />
       </div>

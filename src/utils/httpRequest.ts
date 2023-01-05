@@ -2,6 +2,7 @@ import {
   LoginResponse,
   RegisterResponse,
   TopupResponse,
+  TransferResponse,
 } from "../interfaces/api";
 
 const baseURL = "http://localhost:8080/";
@@ -72,6 +73,33 @@ export const makeTopupRequest = async (
         source_of_fund_id,
       }),
     });
+    const { code, message, data } = await response.json();
+    return { code, message, data };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+export const makeTransferRequest = async (
+  amount: number,
+  destination_account_number: number,
+  description: string,
+  cookie: string
+): Promise<TransferResponse | undefined> => {
+  try {
+    const response = await fetch(baseURL + "transactions/transfer", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${cookie}`,
+      },
+      body: JSON.stringify({
+        amount,
+        to: destination_account_number,
+        description,
+      }),
+    });
+
     const { code, message, data } = await response.json();
     return { code, message, data };
   } catch (err) {

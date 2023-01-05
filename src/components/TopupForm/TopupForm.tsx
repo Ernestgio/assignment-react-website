@@ -54,7 +54,7 @@ export default function TopupForm() {
   useEffect(() => {
     dispatch(fetchUser(cookies.token));
     dispatchFundSource(fetchSources(cookies.token));
-  }, []);
+  }, [cookies.token, dispatch, dispatchFundSource]);
 
   return (
     <div className="fields__container">
@@ -84,7 +84,7 @@ export default function TopupForm() {
         />
         <h2>Amount</h2>
         <input
-          className="input__amount"
+          className={"input__amount " + (amount === 0 ? "error__input" : " ")}
           type="tel"
           required
           value={amount}

@@ -21,6 +21,16 @@ export interface TopupResponse {
   };
 }
 
+export interface TransferResponse {
+  code: number;
+  message: string;
+  data?: {
+    id: number;
+    to_wallet_id: number;
+    description: string;
+  };
+}
+
 export interface IUser {
   first_name: string;
   wallet_id: number;

@@ -69,7 +69,7 @@ export default function RegisterForm() {
   };
 
   return (
-    <div className="fields__container">
+    <div className="register__fields__container">
       <form onSubmit={handleSubmit}>
         <h2>Name</h2>
         <input

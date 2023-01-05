@@ -54,7 +54,7 @@ export default function LoginForm() {
   };
 
   return (
-    <div className="fields__container">
+    <div className="register__fields__container">
       <form onSubmit={handleSubmit}>
         <h2>Email</h2>
         <input
