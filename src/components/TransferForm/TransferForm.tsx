@@ -91,6 +91,7 @@ export default function TransferForm() {
           type="tel"
           required
           value={walletId}
+          data-testid="from-input"
           disabled={true}
           className="disabled"
         />

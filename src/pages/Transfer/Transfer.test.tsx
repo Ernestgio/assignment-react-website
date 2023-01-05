@@ -35,6 +35,21 @@ test("Should match snapshot", () => {
   expect(screen).toMatchSnapshot();
 });
 
+test("Source Wallet Input form should have disabled class", () => {
+  render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route index element={<Transfer />}></Route>
+        </Routes>
+      </BrowserRouter>
+    </Provider>
+  );
+
+  const fromInput = screen.getByTestId("from-input");
+  expect(fromInput.classList.contains("disabled")).toBe(true);
+});
+
 test("Should display amount empty warning on first time page loads", () => {
   render(
     <Provider store={store}>

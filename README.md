@@ -64,6 +64,8 @@ Here are a few screenshot the app screens.
 
 ## Test
 
+![test](./test.png)
+
 This project also includes unit test for transfer page by:
 
 - Testing modal as part of transfer page to see if it is rendered
@@ -71,6 +73,8 @@ This project also includes unit test for transfer page by:
 - Testing modal print by mocking window print
 
 - Testing the snapshot of transfer page
+
+- Testing disabled source wallet form input
 
 - Testing the header displayed of transfer page
 
