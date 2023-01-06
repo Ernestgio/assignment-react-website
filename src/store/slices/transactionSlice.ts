@@ -44,7 +44,7 @@ const fetchTransactionFromApi = async (
 ) => {
   try {
     const response: Response = await fetch(
-      `http://localhost:8080/transactions?size=${requestParameters.size}&sortBy=${requestParameters.sortBy}&sortDir=${requestParameters.sortDir}&search=${requestParameters.search}&page=${requestParameters.page}`,
+      `${process.env.REACT_APP_API_URL}transactions?size=${requestParameters.size}&sortBy=${requestParameters.sortBy}&sortDir=${requestParameters.sortDir}&search=${requestParameters.search}&page=${requestParameters.page}`,
       {
         mode: "cors",
         headers: {

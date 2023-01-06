@@ -2,7 +2,7 @@ import { TopupResponse, TransferResponse } from "../interfaces/api";
 import { LoginResponse } from "../interfaces/api/LoginResponse";
 import { RegisterResponse } from "../interfaces/api/RegisterResponse";
 
-const baseURL = "http://localhost:8080/";
+const baseURL = process.env.REACT_APP_API_URL;
 
 export const makeRegisterRequest = async (
   first_name: string,
