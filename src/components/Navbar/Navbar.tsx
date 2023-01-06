@@ -42,6 +42,11 @@ export default function Navbar() {
                 Games
               </NavLink>
             </li>
+            <li className="nav__item">
+              <NavLink to="/logout" className="nav-link">
+                Logout
+              </NavLink>
+            </li>
           </div>
         </div>
       </div>

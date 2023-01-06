@@ -11,6 +11,7 @@ import "./App.scss";
 import Games from "./pages/Games/Games";
 import Protected from "./pages/Protected/Protected";
 import Public from "./pages/Public/Public";
+import Logout from "./pages/Logout/Logout";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/transfer" element={<Transfer />} />
           <Route path="/topup" element={<Topup />} />
           <Route path="/games" element={<Games />} />
+          <Route path="/logout" element={<Logout />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />
